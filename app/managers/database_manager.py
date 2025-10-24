@@ -106,7 +106,8 @@ class DatabaseManager:
         return CategoriesMapping(
             items=[
                 CategoryMapping(name=category.name, value=category.value)
-                for category in Categories if category.name != "none"
+                for category in Categories
+                if category.name != "none"
             ]
         )
 
