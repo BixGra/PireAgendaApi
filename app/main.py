@@ -1,7 +1,6 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Depends
-from fastapi.responses import RedirectResponse
 
 from app.schemas.database_schemas import (
     AgendaList,
@@ -78,7 +77,7 @@ async def reload(
     database_manager: DatabaseManager = Depends(get_database_manager),
 ):
     database_manager.reload()
-    return RedirectResponse("/")
+    return "ok"
 
 
 @app.get("/{_id}")
