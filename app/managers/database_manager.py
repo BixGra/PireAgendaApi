@@ -144,7 +144,7 @@ class DatabaseManager:
         if in_description:
             criterion.append(Agenda.description.regexp_match(pattern, "i"))
 
-        rows = self._db.query(Agenda).filter(*criterion)
+        rows = self._db.query(Agenda).filter(or_(*criterion))
 
         def highlight(text: str) -> str:
             return re.sub(
