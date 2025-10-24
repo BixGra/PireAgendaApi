@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Depends
+from fastapi.responses import JSONResponse
 
 from app.schemas.database_schemas import (
     AgendaList,
@@ -35,41 +36,41 @@ async def root():
 @app.get("/all")
 async def get_all(
     database_manager: DatabaseManager = Depends(get_database_manager),
-) -> AgendaList:
-    return database_manager.get_all()
+) -> JSONResponse:
+    return JSONResponse(database_manager.get_all())
 
 
 @app.get("/categories")
 async def get_categories(
     database_manager: DatabaseManager = Depends(get_database_manager),
 ) -> CategoriesMapping:
-    return database_manager.get_categories()
+    return JSONResponse(database_manager.get_categories())
 
 
 @app.post("/filter/categories")
 async def get_by_categories(
     get_by_categories_input: GetByCategoriesInput,
     database_manager: DatabaseManager = Depends(get_database_manager),
-) -> AgendaList:
-    return database_manager.get_by_categories(get_by_categories_input.categories)
+) -> JSONResponse:
+    return JSONResponse(database_manager.get_by_categories(get_by_categories_input.categories))
 
 
 @app.post("/filter/date")
 async def get_by_date(
     get_by_date_input: GetByDateInput,
     database_manager: DatabaseManager = Depends(get_database_manager),
-) -> AgendaList:
-    return database_manager.get_by_date(get_by_date_input.date)
+) -> JSONResponse:
+    return JSONResponse(database_manager.get_by_date(get_by_date_input.date))
 
 
 @app.post("/search")
 async def search(
     search_input: SearchInput,
     database_manager: DatabaseManager = Depends(get_database_manager),
-) -> AgendaList:
-    return database_manager.search(
+) -> JSONResponse:
+    return JSONResponse(database_manager.search(
         search_input.query, search_input.in_title, search_input.in_description
-    )
+    ))
 
 
 @app.get("/reload")
@@ -84,5 +85,5 @@ async def reload(
 async def get_by_id(
     _id: int,
     database_manager: DatabaseManager = Depends(get_database_manager),
-) -> AgendaList:
-    return database_manager.get_by_id(_id)
+) -> JSONResponse:
+    return JSONResponse(database_manager.get_by_id(_id))
