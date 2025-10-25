@@ -50,6 +50,14 @@ async def get_all(
     return database_manager.get_all()
 
 
+@app.get("/agenda/{_id}")
+async def get_by_id(
+    _id: int,
+    database_manager: DatabaseManager = Depends(get_database_manager),
+) -> AgendaList:
+    return database_manager.get_by_id(_id)
+
+
 @app.get("/categories")
 async def get_categories(
     database_manager: DatabaseManager = Depends(get_database_manager),
@@ -89,11 +97,3 @@ async def reload(
 ):
     database_manager.reload()
     return "ok"
-
-
-@app.get("/{_id}")
-async def get_by_id(
-    _id: int,
-    database_manager: DatabaseManager = Depends(get_database_manager),
-) -> AgendaList:
-    return database_manager.get_by_id(_id)
